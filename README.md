@@ -1,4 +1,4 @@
-# cripto_360
+# crypto_dashboard
 
 # Dashboard de Criptomoedas
 
