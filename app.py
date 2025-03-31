@@ -54,11 +54,14 @@ if price_data and historical_data:
             {
                 'Criptomoeda': crypto.capitalize(),
                 'Preço (USD)': f"${price_data[crypto]['usd']:,.2f}",
-                'Variação 24h': f"{price_data[crypto]['usd_24h_change']:.2f}%"
+                'Variação 24h': price_data[crypto]['usd_24h_change']
             }
             for crypto in price_data
         ])
-        st.dataframe(prices_df, use_container_width=True)
+        # Criar uma cópia para exibição com o símbolo %
+        display_df = prices_df.copy()
+        display_df['Variação 24h'] = display_df['Variação 24h'].apply(lambda x: f"{x:.2f}%")
+        st.dataframe(display_df, use_container_width=True)
     
     with col2:
         st.subheader("Variação de Preço (24h)")
@@ -69,6 +72,7 @@ if price_data and historical_data:
             y='Variação 24h',
             title='Variação de Preço nas Últimas 24 Horas'
         )
+        # Atualizar cores baseado nos valores numéricos
         fig.update_traces(marker_color=['#FF9900' if x >= 0 else '#FF0000' for x in prices_df['Variação 24h']])
         st.plotly_chart(fig, use_container_width=True)
     
